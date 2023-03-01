@@ -93,11 +93,79 @@ ALTER TABLE Medical_treatments RENAME TO Medicaments
 
 ALTER TABLE Ambulance DROP COLUMN ambulance_service_name
 ```
-#### Write an SQL statement to extract from the driver table the first and last name into one column using the aliases for that column.
+#### Write a query to extract from the driver table the first and last name into one column using the aliases for that column.
 ```
 SELECT CONCAT(driver_f_name, ', ', driver_l_name) AS full_name FROM driver;
 ```
 #### Write a query to select first fifteen records from a Patient table.
 ```
 SELECT *FROM patient ORDER BY patient_id LIMIT 15;
+```
+#### Write a query to get all data from the Patient table in descending order by their first name. You should use aliases for presented columns.
+```
+SELECT CONCAT(patient_id, ' - ', ptn_f_name, ' ', ptn_l_name, ', ', ptn_gender) AS full_info FROM patient ORDER BY ptn_f_name DESC;
+```
+#### Write a single query to display first and last name and date of birth for all doctors who were born between 1980 and 1985.
+```
+SELECT dc_f_name, dc_l_name, dc_bith_of_date FROM doctor WHERE dc_bith_of_date >= '01/01/1980' AND dc_bith_of_date <= '12/31/1985';
+```
+#### Write a query to modify hospital status in a Hospitals table for hospitals, located in Beizhang.
+```
+UPDATE hospitals SET hospital_status = 'closed' WHERE town = 'Beizhang';
+```
+#### Write a query to get the number of town available in the Hospitals table.
+```
+SELECT COUNT(town) FROM hospitals WHERE hospital_status = 'AV';
+```
+#### Write a query to get the total price for all appointments.
+```
+SELECT SUM(b.bill_price) AS Total FROM appointment d, bill b WHERE d.bill_id = b.bill_id;
+```
+#### Write a query to get the maximum price for bills with “Flu” disease.
+```
+SELECT MAX(b.bill_price) AS maximum FROM appointment d, bill b, disease j WHERE d.bill_id = b.bill_id AND j.disease_name = 'Flu';
+```
+#### Write a query to get the bills’ minimum price for patient Corine Doherty.
+```
+SELECT MIN(b.bill_price) AS minimum FROM appointment d, bill b, patient j WHERE d.bill_id = b.bill_id AND d.patient_id = j.patient_id AND j.ptn_f_name = 'Corine' AND j.ptn_l_name = 'Doherty';
+```
+#### Write a query to get the average price for doctors with specialization_id = 18.
+```
+SELECT AVG(b.bill_price) AS average FROM appointment d, bill b, doctor j WHERE d.bill_id = b.bill_id AND d.doctor_id = j.doctor_id AND j.splztn_id = 18;
+```
+#### Write a query to get data from hospitals table excluding the duplicates values from the "town" column.
+```
+SELECT town FROM hospitals GROUP BY town;
+```
+#### Write a query to get the number of doctors working for each specialization_id.
+```
+SELECT b.spzltn_name, COUNT(d.splztn_id) FROM doctor d, specialization b WHERE d.splztn_id = b.splztn_id GROUP BY b.splztn_id; 
+```
+#### Write a query to display the age of doctors, if the age is less than 35, display the age group as young, from 35 to 60 as middle, from 60 as old.
+```
+SELECT COUNT(doctor_id) FILTER (WHERE (EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM dc_bith_of_date)) < 35) AS "Young",
+    COUNT(doctor_id) FILTER (WHERE (EXTRAXT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM dc_bith_of_date)) >= 35 
+        AND (EXTRAXT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM dc_bith_of_date)) <= 60) AS "Middle",
+    COUNT(doctor_id) FILTER (WHERE (EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM dc_bith_of_date)) > 60) AS "Old"
+FROM doctor;
+```
+#### Write a query to get the first and last name of the patients who has the letter 'n' as the fifth character and 'l' in the first name.
+```
+SELECT ptn_f_name, ptn_l_name FROM patient WHERE ptn_f_name LIKE '____n%' AND ptn_f_name LIKE '%l'; 
+```
+#### Write a query to display the last name of doctors whose name contain exactly seven characters.
+```
+SELECT dc_l_name, dc_f_name FROM doctor WHERE LENGTH(dc_f_name) = 7;
+```
+#### Write a query to get the difference between the highest and lowest bill’s price.
+```
+SELECT MAX(bill_price) - MIN(bill_price) FROM bill;
+```
+#### Write a query to get number of medicaments available for each hospital in descending order from hospital_medicaments table.
+```
+SELECT COUNT(b.medicament_id), d.hospital_name FROM hospital_medicaments b, hospitals d WHERE d.hospital_id = b.hospital_id GROUP BY d.hospital_id ORDER BY COUNT(b.medicaments_id) DESC; 
+```
+#### Write a single query to display the first and last name of patient whose bill price is higher than 13000.
+```
+SELECT b.ptn_f_name, b.ptn_l_name, j.bill_price FROM patient b, appointment d, bill j WHERE b.patient_id = d.patient_id AND d.bill_id = j.bill_id AND j.bill_price > 13000;
 ```
