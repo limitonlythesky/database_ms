@@ -22,7 +22,7 @@ CREATE TABLE Hospitals (
  	    hospital_id INT NOT NULL,
     	hospital_name VARCHAR(255) NOT NULL, 
     	hospital_address VARCHAR(255) NOT NULL,
-  	  town VARCHAR(255) NOT NULL, 
+  	    town VARCHAR(255) NOT NULL, 
     	hospital_status VARCHAR(255) NOT NULL,
     	doctor_id INT NOT NULL,
     	PRIMARY KEY (hospital_id),
@@ -44,11 +44,11 @@ CREATE TABLE Specialization(
 );
 
 CREATE TABLE Doctor ( 
-   	  doctor_id INT NOT NULL,
+   	    doctor_id INT NOT NULL,
     	doctor_f_name VARCHAR(255) NOT NULL,
     	doctor_l_name VARCHAR(255) NOT NULL,
     	doctor_gender VARCHAR(255) NOT NULL, 
-   	  doctor_birth_of_date DATE NOT NULL, 
+   	    doctor_birth_of_date DATE NOT NULL, 
     	specialization_id INT NOT NULL,
     	PRIMARY KEY (doctor_id),
     	FOREIGN KEY (specialization_id) REFERENCES Specialization(specialization_id)
@@ -83,7 +83,7 @@ CREATE TABLE Disease(
 );
 
 CREATE TABLE Bill(
-   	  bill_id INT NOT NULL,
+   	    bill_id INT NOT NULL,
     	bill_price INT NOT NULL,
     	PRIMARY KEY (bill_id)
 );
