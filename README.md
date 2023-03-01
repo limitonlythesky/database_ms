@@ -3,14 +3,14 @@
 ```
 CREATE TABLE Driver(
     	driver_id INT NOT NULL,
-    	driver_f_name VARCHAR(255) NOT NULL,
- 	    driver_I_name VARCHAR(255) NOT NULL,
-    	PRIMARY KEY (driver_id)
+ 	driver_f_name VARCHAR(255) NOT NULL,
+ 	driver_I_name VARCHAR(255) NOT NULL,
+ 	PRIMARY KEY (driver_id)
 );
 
 CREATE TABLE Ambulance_service(
- 	    ambulance_id INT NOT NULL,
- 	    ambalunce_service_name VARCHAR(255) NOT NULL,
+ 	ambulance_id INT NOT NULL,
+ 	ambalunce_service_name VARCHAR(255) NOT NULL,
     	driver_id INT NOT NULL,
     	hospital_id INT NOT NULL, 
     	PRIMARY KEY (ambulance_id),
@@ -19,10 +19,10 @@ CREATE TABLE Ambulance_service(
 );
 
 CREATE TABLE Hospitals (
- 	    hospital_id INT NOT NULL,
+ 	hospital_id INT NOT NULL,
     	hospital_name VARCHAR(255) NOT NULL, 
     	hospital_address VARCHAR(255) NOT NULL,
-  	    town VARCHAR(255) NOT NULL, 
+  	town VARCHAR(255) NOT NULL, 
     	hospital_status VARCHAR(255) NOT NULL,
     	doctor_id INT NOT NULL,
     	PRIMARY KEY (hospital_id),
@@ -38,32 +38,32 @@ CREATE TABLE Medical_treatments (
 );
 
 CREATE TABLE Specialization(
- 	    specialization_id INT NOT NULL, 
+ 	specialization_id INT NOT NULL, 
     	specialization_name INT(255) NOT NULL,
     	PRIMARY KEY (specialization_id)
 );
 
 CREATE TABLE Doctor ( 
-   	    doctor_id INT NOT NULL,
+   	doctor_id INT NOT NULL,
     	doctor_f_name VARCHAR(255) NOT NULL,
     	doctor_l_name VARCHAR(255) NOT NULL,
     	doctor_gender VARCHAR(255) NOT NULL, 
-   	    doctor_birth_of_date DATE NOT NULL, 
+   	doctor_birth_of_date DATE NOT NULL, 
     	specialization_id INT NOT NULL,
     	PRIMARY KEY (doctor_id),
-    	FOREIGN KEY (specialization_id) REFERENCES Specialization(specialization_id)
+   	FOREIGN KEY (specialization_id) REFERENCES Specialization(specialization_id)
 );
 
 CREATE TABLE Appointment(
-    	appointment_id INT NOT NULL, 
+ 	appointment_id INT NOT NULL, 
     	appointment_date DATE NOT NULL,
     	doctor_id INT NOT NULL,
     	patient_id INT NOT NULL,
     	disease_id INT NOT NULL,
     	bill_id INT NOT NULL,
     	PRIMARY KEY (appointment_id),
-   	  FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id),
-    	FOREIGN KEY (patient_id) REFERENCES Patient(patient_id),
+   	FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id),
+   	FOREIGN KEY (patient_id) REFERENCES Patient(patient_id),
     	FOREIGN KEY (disease_id) REFERENCES Disease(disease_id),
     	FOREIGN KEY (bill_id) REFERENCES Bill(bill_id)
 );
@@ -83,7 +83,7 @@ CREATE TABLE Disease(
 );
 
 CREATE TABLE Bill(
-   	    bill_id INT NOT NULL,
+   	bill_id INT NOT NULL,
     	bill_price INT NOT NULL,
     	PRIMARY KEY (bill_id)
 );
@@ -92,4 +92,12 @@ ALTER TABLE Ambulance_service RENAME TO Ambulance
 ALTER TABLE Medical_treatments RENAME TO Medicaments
 
 ALTER TABLE Ambulance DROP COLUMN ambulance_service_name
+```
+#### Write an SQL statement to extract from the driver table the first and last name into one column using the aliases for that column.
+```
+SELECT CONCAT(driver_f_name, ', ', driver_l_name) AS full_name FROM driver;
+```
+#### Write a query to select first fifteen records from a Patient table.
+```
+SELECT *FROM patient ORDER BY patient_id LIMIT 15;
 ```
